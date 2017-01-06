@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
         int lowPos;
 
         Random random = new Random();
-        highPos = (176+Math.abs(random.nextInt(39)));
+        highPos = (176+Math.abs(random.nextInt(20)));
         lowPos = (161+Math.abs(random.nextInt(93)));
 
         byte[] b = new byte[2];

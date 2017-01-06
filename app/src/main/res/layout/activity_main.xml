@@ -19,8 +19,9 @@
 
     </LinearLayout>
     <!--浮動按鈕-->
-    <include layout="@layout/float_buttons" />
     <!--答案正確界面-->
     <include layout="@layout/answer_right" />
+
+    <include layout="@layout/float_buttons" />
 
 </FrameLayout>
