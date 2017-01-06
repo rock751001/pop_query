@@ -35,7 +35,7 @@ import skyline.inc.pop_query.util.Util;
 public class MainActivity extends AppCompatActivity implements IWordButtonClickListener {
     public  final  static String TAG = "MainActivity";
     /**
-     *   答案狀態 正確
+     *    答案狀態 正確
      */
     public final static int STATUS_ANSWER_RIGHT = 1;
     /**
