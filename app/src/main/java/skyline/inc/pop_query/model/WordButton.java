@@ -10,8 +10,8 @@ import android.widget.Button;
 public class WordButton {
 
         public int mIndex;//索引
-        public boolean mIsVisiable;//顯示或隱藏
-        public String mWordString;//當前文字
+        public boolean mIsVisiable; //顯示或隱藏
+        public String mWordString; //當前文字
 
     public Button mViewButton;
     //public android.view.View params;
