@@ -32,7 +32,7 @@ import skyline.inc.pop_query.util.MyLog;
 import skyline.inc.pop_query.util.MyPlayer;
 import skyline.inc.pop_query.util.Util;
 
-public class MainActivity extends AppCompatActivity implements IWordButtonClickListener {
+public class MainActivity extends AppCompatActivity implements IWordButtonClickListener {//implements IWordButtonClickListener 實現接口裡的方法
     public  final  static String TAG = "MainActivity";
     /**
      *    答案狀態 正確
@@ -123,11 +123,11 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
 
         mViewPanBar = (ImageView) findViewById(R.id.imageView2);//撥桿元件
 
-        mMyGridView = (MyGridView) findViewById(R.id.gridview);
+        mMyGridView = (MyGridView) findViewById(R.id.gridview);//文字按鈕
 
         mViewCurrentCoins = (TextView) findViewById(R.id.txt_bar_coins);
         mViewCurrentCoins.setText(mCurrentCoins+"");
-
+        //註冊監聽器
         mMyGridView.registOnWordButtonClick(this);
 
         mViewWordsContainer = (LinearLayout) findViewById(R.id.word_select_container);
@@ -360,11 +360,11 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
 
         super.onPause();
     }
-    private  Song loadStageSongInfo(int stageIndex){
+    private  Song loadStageSongInfo(int stageIndex){//讀取當前關卡歌曲信息方法，stageIndex當前關卡索引
         Song song = new Song();
-        String[] stage = Const.SONG_INFO[stageIndex];
-        song.setSongFileName(stage[Const.INDEX_FILE_NAME]);
-        song.setSongName(stage[Const.INDEX_SONG_NAME]);
+        String[] stage = Const.SONG_INFO[stageIndex];//從Const裡面讀取索引
+        song.setSongFileName(stage[Const.INDEX_FILE_NAME]);//讀取歌的黨名
+        song.setSongName(stage[Const.INDEX_SONG_NAME]);//讀取歌名
 
         return song;
     }
@@ -372,18 +372,18 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
     /**
      * 加載當前關的數據
      */
-    private  void  initCurrentStageData(){
-        //讀取當前關的歌曲訊息
+    private  void  initCurrentStageData(){//初始化當前關的數據方法
+        //讀取當前關的歌曲訊息後得到當前關卡的歌曲對象
         mCurrentSong = loadStageSongInfo(++mCurrentStatgeIndex);
-        //初始化已選擇筐
+        //初始化答案筐
         mBtnSelectWords = initWordSelect();
         //增加新的答案筐
-        LayoutParams params = new LayoutParams(140, 140);
+        LayoutParams params = new LayoutParams(140, 140);//Params答案框的資料參數
         //清空原來的答案
         mViewWordsContainer.removeAllViews();
         //增加答案筐
         for(int i = 0; i<mBtnSelectWords.size();i++){
-            mViewWordsContainer.addView(mBtnSelectWords.get(i).mViewButton,params);
+            mViewWordsContainer.addView(mBtnSelectWords.get(i).mViewButton,params);//添加的子視圖、子視圖的布局參數
         }
         //當前的索引
         mCurrentStageView= (TextView) findViewById(R.id.text_current_stage);
@@ -393,17 +393,17 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
 
         //獲得數據
         mAllWords = initAllWord();
-        // 更新數據
+        // 更新文字數據
         mMyGridView.updateData(mAllWords);
         // 載入時播放歌曲
         handlePlayButton();
     }
 
     /**
-     * 初始化待選取筐
+     * 初始化待選取文字框
      * @return
      */
-    private ArrayList<WordButton> initAllWord(){
+    private ArrayList<WordButton> initAllWord(){//獲得文字數據的方法
         ArrayList<WordButton> data = new ArrayList<WordButton>();
         //獲得所有待選文字
         String[] words = generateWords();
@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
         for(int i = 0; i < MyGridView.COUNTS_WORDS; i++){
             WordButton button = new WordButton();
             button.mWordString = words[i];
-            data.add(button);
+            data.add(button);//加入數值
 
         }
 
@@ -419,21 +419,24 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
 
         return data;
     }
-
+    /**
+     * 初始已選取文字框 (答案框)
+     * @return
+     */
     private ArrayList<WordButton> initWordSelect() {
         ArrayList<WordButton> data = new ArrayList<WordButton>();
 
-        for (int i = 0; i < mCurrentSong.getNameLength(); i++) {
+        for (int i = 0; i < mCurrentSong.getNameLength(); i++) {//對應歌曲名子長度生成答案框
             View view = Util.getView(MainActivity.this, R.layout.self_ui_gridview_item);
 
             final WordButton holder = new WordButton();
 
             holder.mViewButton = (Button)view.findViewById(R.id.item_btn);
-            holder.mViewButton.setTextColor(Color.WHITE);
-            holder.mViewButton.setText("");
-            holder.mIsVisiable = false;
+            holder.mViewButton.setTextColor(Color.WHITE);//設定顏色
+            holder.mViewButton.setText("");//初始值空
+            holder.mIsVisiable = false;//隱藏
 
-            holder.mViewButton.setBackgroundResource(R.drawable.game_wordblank);
+            holder.mViewButton.setBackgroundResource(R.drawable.game_wordblank);//設定背景
             holder.mViewButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -441,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
                 }
             });
 
-            data.add(holder);
+            data.add(holder);//加入數值
         }
 
         return data;
@@ -477,24 +480,24 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
      */
     private  char getRandomChar(){
         String str = "";
-        int highPos;
-        int lowPos;
+        int highPos;//漢字高位
+        int lowPos;//漢字低位
 
         Random random = new Random();
-        highPos = (176+Math.abs(random.nextInt(20)));
+        highPos = (176+Math.abs(random.nextInt(20)));//abs為絕對值
         lowPos = (161+Math.abs(random.nextInt(93)));
 
-        byte[] b = new byte[2];
-        b[0] = (Integer.valueOf(highPos)).byteValue();
+        byte[] b = new byte[2];//一個中文字由2個字節組成，把高位和低位組合起來
+        b[0] = (Integer.valueOf(highPos)).byteValue();//byteValue()返回字節一個字節的值
         b[1] = (Integer.valueOf(lowPos)).byteValue();
 
         try {
-          str = new String(b,"Big5");
+          str = new String(b,"Big5");//轉換字符的類型
         }catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }
 
-        return  str.charAt(0);
+        return  str.charAt(0);//取出字串 位置在索引為0的字元
     }
 
     /**

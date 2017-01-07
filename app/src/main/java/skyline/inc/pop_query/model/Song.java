@@ -12,7 +12,7 @@ public class Song {
     private String mSongFileName;
     //歌曲名字長度
     private int mNameLength;
-    //拆字串
+    //把字串拆成獨立文字
     public char[] getNameCharacters(){
         return mSongName.toCharArray();
     }
