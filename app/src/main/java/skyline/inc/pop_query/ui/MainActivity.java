@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
 
     //    唱片動畫
     private Animation mPanAnim;
-    private LinearInterpolator mPanLin;
+    private LinearInterpolator mPanLin;//LinearInterpolator動畫速度，對動畫做加減速度，可以讓這個動畫勻速執行(系統預設先加速後減速)
 
     private Animation mBarInAnim;
     private LinearInterpolator mBarInLin;
@@ -119,9 +119,9 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
         mCurrentCoins = datas[Const.INDEX_LOAD_DATA_COINS];
         //  控件初始化
 
-        mViewPan = (ImageView) findViewById(R.id.imageView1);
+        mViewPan = (ImageView) findViewById(R.id.imageView1);//唱片元件
 
-        mViewPanBar = (ImageView) findViewById(R.id.imageView2);
+        mViewPanBar = (ImageView) findViewById(R.id.imageView2);//撥桿元件
 
         mMyGridView = (MyGridView) findViewById(R.id.gridview);
 
@@ -133,9 +133,10 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
         mViewWordsContainer = (LinearLayout) findViewById(R.id.word_select_container);
 
         // 動畫初始化 // 設置監聽器(盤桿置放後唱盤才開始動)
-        mPanAnim = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        mPanAnim = AnimationUtils.loadAnimation(this, R.anim.rotate);//AnimationUtils為Android中動畫工具類，loadAnimation方法用於加載XML動畫配置文件
         mPanLin = new LinearInterpolator();
-        mPanAnim.setInterpolator(mPanLin);
+        mPanAnim.setInterpolator(mPanLin);//把速度和動畫關聯起來
+        //setAnimationListener  對Animation設置監聽器，在動畫效果開始執行時、執行結束、重複執行 可以觸發監聽器
         mPanAnim.setAnimationListener(new Animation.AnimationListener(){
 
             @Override
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(Animation animation) {//唱片動畫結束啟動撥桿回去動畫
                   mViewPanBar.startAnimation(mBarOutAnim);
             }
 
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
 
         mBarInAnim = AnimationUtils.loadAnimation(this, R.anim.rotate_45);
         mBarInLin = new LinearInterpolator();
-        mBarInAnim.setFillAfter(true);
+        mBarInAnim.setFillAfter(true);//setFillAfter表示使動畫撥完後保持在最後終止的位置，true表示使用該效果
         mBarInAnim.setInterpolator(mBarInLin);
         mBarInAnim.setAnimationListener(new Animation.AnimationListener(){
 
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(Animation animation) {//撥桿動畫結束後啟動唱片動畫
               mViewPan.startAnimation(mPanAnim);
             }
 
@@ -189,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mIsRunning = false;
-                mBtnPlayStart.setVisibility(View.VISIBLE);
+                mIsRunning = false;  //撥桿回到原位的動畫結束後，唱片可以繼續撥放
+                mBtnPlayStart.setVisibility(View.VISIBLE);//顯示唱片撥放紐
             }
 
             @Override
@@ -200,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
         });
 
         mBtnPlayStart = (ImageButton) findViewById(R.id.btn_play_start);
+        //按播放鍵所觸發的事件
         mBtnPlayStart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -334,10 +336,10 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
      */
     private void handlePlayButton(){
         if(mViewPanBar!=null) {
-            if (!mIsRunning) {
+            if (!mIsRunning) {  //當前唱片處於非運行時，可以開始撥放
                 mIsRunning = true;
-                mViewPanBar.startAnimation(mBarInAnim);
-                mBtnPlayStart.setVisibility(View.INVISIBLE);
+                mViewPanBar.startAnimation(mBarInAnim);//按下撥放鈕後運行撥桿動畫
+                mBtnPlayStart.setVisibility(View.INVISIBLE);//隱藏唱片撥放紐 setVisibility()  visible：顯示invisible：隱藏，但畫面會保留該物件的位置gone：隱藏，不會保留位置
                 //播放音樂
                 MyPlayer.playSong(MainActivity.this,mCurrentSong.getSongFileName());
 
@@ -347,12 +349,12 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause() {//應用程式中斷 或退出時 進行暫停
         //
         Util.saveData(MainActivity.this,mCurrentStatgeIndex-1,
                 mCurrentCoins);
         //
-        mViewPan.clearAnimation();
+        mViewPan.clearAnimation();//動畫停止
         //暫停音樂
         MyPlayer.stopTheSong(MainActivity.this);
 

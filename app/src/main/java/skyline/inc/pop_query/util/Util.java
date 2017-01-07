@@ -29,8 +29,8 @@ public class Util {
     private static AlertDialog mAlertDialog;
 
     public static View getView(Context context,int layoutId){
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(layoutId,null);
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);//LayoutInflater 用來找res/layout/下的xml佈局檔，並且實例化 1、對於一個沒有被載入或者想要動態載入的介面，都需要使用LayoutInflater.inflate()來載入；2、對於一個已經載入的介面，就可以使用Activiyt.findViewById()方法來獲得其中的介面元素。
+        View layout = inflater.inflate(layoutId,null);//使用inflate方法載入layout的xml
 
         return layout;
     }

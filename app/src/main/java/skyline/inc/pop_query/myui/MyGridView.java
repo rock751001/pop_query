@@ -25,7 +25,7 @@ public class MyGridView extends GridView {
 
     public final  static  int COUNTS_WORDS = 24;
 
-    private ArrayList<WordButton> mArrayList = new ArrayList<WordButton>();
+    private ArrayList<WordButton> mArrayList = new ArrayList<WordButton>();//24個文字按鈕的容器
 
     private MyGridAdapter mAdapter;
 
@@ -39,7 +39,7 @@ public class MyGridView extends GridView {
         super(context, attrs);
         mContext = context;
         mAdapter = new MyGridAdapter();
-        this.setAdapter(mAdapter);
+        this.setAdapter(mAdapter);//進行關聯
     }
 
     public void updateData(ArrayList<WordButton> list){
@@ -48,8 +48,8 @@ public class MyGridView extends GridView {
         setAdapter(mAdapter);
     }
 
-    class MyGridAdapter extends BaseAdapter{
-
+    class MyGridAdapter extends BaseAdapter{//用baseAdapter自訂View
+        //實現BaseAdapter抽象方法
         @Override
         public int getCount() {
             return mArrayList.size();
@@ -57,7 +57,7 @@ public class MyGridView extends GridView {
 
         @Override
         public Object getItem(int position) {
-            return mArrayList.get(position);
+            return mArrayList.get(position);//容器內所對應的內容
         }
 
         @Override
@@ -70,8 +70,8 @@ public class MyGridView extends GridView {
 
              final WordButton holder;
              if(v==null){
-                v = Util.getView(mContext, R.layout.self_ui_gridview_item);
-                 holder = mArrayList.get(pos);
+                v = Util.getView(mContext, R.layout.self_ui_gridview_item);//如果為空直創建
+                 holder = mArrayList.get(pos);//從容器當中取出
                  // 引入動畫
                  mScaleAnimation = AnimationUtils.loadAnimation(mContext,R.anim.scale);
                  // 延遲動畫時間
