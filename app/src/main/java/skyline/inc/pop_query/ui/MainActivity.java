@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
     //    文字盒子容器 (待選筐)
     private ArrayList<WordButton> mAllWords;
 
-    //    (已選筐)
+    //    (已選筐)(答案框)
     private  ArrayList<WordButton> mBtnSelectWords;
 
     //
@@ -288,13 +288,16 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
     private boolean judgeAppPassed(){
         return (mCurrentStatgeIndex == Const.SONG_INFO.length-1);
     }
-
+    /**
+     * 清除答案
+     * @param wordButton
+     */
     private  void clearTheAnswer(WordButton wordButton){
-        wordButton.mViewButton.setText("");
-        wordButton.mWordString="";
-        wordButton.mIsVisiable = false;
+        wordButton.mViewButton.setText("");//設定文字內容空字串
+        wordButton.mWordString="";//設定文字字串為空
+        wordButton.mIsVisiable = false;//答案框框可見性不可見
         //待選筐的可見性
-        setButtonVisiable(mAllWords.get(wordButton.mIndex),View.VISIBLE);
+        setButtonVisiable(mAllWords.get(wordButton.mIndex),View.VISIBLE);//取出索引所代表的待選Button設可見性為可見
 
     }
     /**
@@ -303,9 +306,9 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
      */
     private void setSelectWord(WordButton wordButton){
         for(int i=0;i<mBtnSelectWords.size();i++){
-            if(mBtnSelectWords.get(i).mWordString.length()==0){
-                //設置答案文字匡內容可見性
-                mBtnSelectWords.get(i).mViewButton.setText(wordButton.mWordString);
+            if(mBtnSelectWords.get(i).mWordString.length()==0){//從第一個開始取，判斷是否為空字符
+                //設置答案文字匡內容及可見性
+                mBtnSelectWords.get(i).mViewButton.setText(wordButton.mWordString);//答案文字框內容來自帶選文字框內容
                 mBtnSelectWords.get(i).mIsVisiable = true;
                 mBtnSelectWords.get(i).mWordString = wordButton.mWordString;
                 //記錄索引
@@ -313,20 +316,20 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
                 //Log
                 MyLog.d(TAG,mBtnSelectWords.get(i).mIndex + "");
                 //設置待選筐的可見性
-                setButtonVisiable(wordButton, View.INVISIBLE);
+                setButtonVisiable(wordButton, View.INVISIBLE);//不可見
                 break;
             }
         }
     }
 
     /**
-     * 設置文字匡是否可見
+     * 設置待選文字匡是否可見
      * @param button
      * @param visibility
      */
     private  void setButtonVisiable(WordButton button , int visibility){
-        button.mViewButton.setVisibility(visibility);
-        button.mIsVisiable = (visibility==View.VISIBLE)?true:false;
+        button.mViewButton.setVisibility(visibility);//為button設可見性
+        button.mIsVisiable = (visibility==View.VISIBLE)?true:false;//設可見性的屬性
         //Log
         MyLog.d(TAG,button.mIsVisiable + "");
     }
@@ -437,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
             holder.mIsVisiable = false;//隱藏
 
             holder.mViewButton.setBackgroundResource(R.drawable.game_wordblank);//設定背景
-            holder.mViewButton.setOnClickListener(new View.OnClickListener(){
+            holder.mViewButton.setOnClickListener(new View.OnClickListener(){//答案框點擊事件
                 @Override
                 public void onClick(View v) {
                     clearTheAnswer(holder);
@@ -450,15 +453,15 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
         return data;
     }
 
-    private  String[] generateWords(){
+    private  String[] generateWords(){//生成所有的待選文字方法
 
         Random random = new Random();
 
         String[] words = new String[MyGridView.COUNTS_WORDS];
 
         //存入歌名
-        for(int i = 0; i<mCurrentSong.getNameLength();i++){
-            words[i] = mCurrentSong.getNameCharacters()[i]+"";
+        for(int i = 0; i<mCurrentSong.getNameLength();i++){ //i<當前歌曲
+            words[i] = mCurrentSong.getNameCharacters()[i]+"";//把歌曲名子轉成相應字符
         }
         //獲取隨機文字並存入陣列
         for(int i = mCurrentSong.getNameLength();
@@ -466,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
            words[i] = getRandomChar() + "";
         }
         //打亂文字順序:隨機選取一個字與第一個交換
+        //然後在第二個之後隨機選擇一個與第二個交換，直到最後一個
         for(int i = MyGridView.COUNTS_WORDS-1;i>=0;i--){
            int index = random.nextInt(i+1);
             String buf = words[index];
