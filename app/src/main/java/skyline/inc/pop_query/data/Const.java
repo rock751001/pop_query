@@ -24,7 +24,6 @@ public class Const {
             {"__00008.m4a","再見"},
             {"__00009.m4a","老男孩"},
             {"__000010.m4a","同桌的你"},
-
     };
 
     public static final String FILE_NAME_SAVE_DATA = "data.dot";
