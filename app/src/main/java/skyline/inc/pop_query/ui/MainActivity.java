@@ -114,9 +114,9 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //讀取遊戲進度
-        int[] datas = Util.loadData(this);
-        mCurrentStatgeIndex = datas[Const.INDEX_LOAD_DATA_STAGE];
-        mCurrentCoins = datas[Const.INDEX_LOAD_DATA_COINS];
+        //int[] datas = Util.loadData(this);
+        //mCurrentStatgeIndex = datas[Const.INDEX_LOAD_DATA_STAGE];
+       // mCurrentCoins = datas[Const.INDEX_LOAD_DATA_COINS];
         //  控件初始化
 
         mViewPan = (ImageView) findViewById(R.id.imageView1);//唱片元件
@@ -276,6 +276,9 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
                    mPassView.setVisibility(View.GONE);
                    //加載關卡數據
                    initCurrentStageData();
+                   mCurrentCoins += 30;
+
+                   mViewCurrentCoins.setText(mCurrentCoins+"");
                }
             }
         });
@@ -732,11 +735,11 @@ public class MainActivity extends AppCompatActivity implements IWordButtonClickL
     private  void  showConfirmDialog(int id){
         switch (id){
             case ID_DIALOG_DELETE_WORD:
-                Util.showDialog(MainActivity.this,"確認花掉"+getDeleteWordCoins()+"多少金幣"
+                Util.showDialog(MainActivity.this,"是否花掉"+getDeleteWordCoins()+"金幣刪除一個文字框"
                         ,mBtnOkDeleteWordListener);
                 break;
             case ID_DIALOG_TIP_ANSWER:
-                Util.showDialog(MainActivity.this,"確認劃掉"+getTipCoins()+"獲得一個文字提示"
+                Util.showDialog(MainActivity.this,"是否花掉掉"+getTipCoins()+"金幣獲得一個文字提示"
                         ,mBtnOkTipAnswerListener);
                 break;
             case ID_DIALOG_LACK_COINS:
